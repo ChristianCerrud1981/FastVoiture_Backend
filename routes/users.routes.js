@@ -10,5 +10,11 @@ const router = express.Router();
 // Route pour users
 router.route("").get(userControllers.getAllUsers);
 
+router.route("/register").post(userControllers.register);
+
+router.route("/login").post(userControllers.login);
+
+router.route("/:id").get(userControllers.getSingleUser);
+
 //Exports
 module.exports = router;

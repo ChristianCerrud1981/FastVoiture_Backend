@@ -23,22 +23,6 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.getSingleUser = async (req, res) => {
-  try {
-    // Verificar la autenticación
-    const id = req.params.id;
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).send({ message: "utilisateur non trouvé" });
-    }
-    res.send(user);
-  } catch (error) {
-    res
-      .status(500)
-      .send({ message: `Erreur de récupération de l'utilisateur : ${error}` });
-  }
-};
-
 // Ruta para registrar un usuario
 exports.register = async (req, res) => {
   const { nom, prenom, telephone, email, password, role } = req.body;
@@ -107,15 +91,16 @@ exports.login = async (req, res) => {
 
 // Endpoint para buscar un usuario por email
 exports.getUserByEmail = async (req, res) => {
-  const { email } = req.query; // Obtener el email de la query
-
+  const email = req.params.email; // Obtener el email de la query
+  console.log(`searching email : ${email}`);
   try {
-    const user = await User.findOne({ email }); // Buscar el usuario en la base de datos
+    const filter = { email: email };
+    const user = await User.findOne(filter); // Buscar el usuario en la base de datos
     if (!user) {
-      return res.status(404).json({ message: "Utilisateur introuvable" }); // Si no se encuentra, retornar 404
+      return res.status(404).send("Utilisateur introuvable"); // Si no se encuentra, retornar 404
     }
-    res.status(200).json({ user }); // Retornar el usuario encontrado
+    res.status(200).send(user); // Retornar el usuario encontrado
   } catch (error) {
-    res.status(500).json({ message: error.message }); // Manejar errores
+    res.status(500).send(error.message); // Manejar errores
   }
 };

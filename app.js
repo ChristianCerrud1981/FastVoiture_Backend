@@ -5,6 +5,8 @@ const os = require("os"); // Importa el módulo os para saber el ip de localhost
 
 //Internal imports
 const usersRoutes = require("./routes/users.routes");
+const voituresRoutes = require("./routes/voitures.routes");
+const reservationRoutes = require("./routes/reservations.routes");
 
 //Variables
 const app = express();
@@ -42,6 +44,8 @@ app.use(express.json());
 
 //Router
 app.use("/users", usersRoutes);
+app.use("/voitures", voituresRoutes);
+app.use("/reservations", reservationRoutes);
 
 //Listener
 app.listen(PORT, () => {
